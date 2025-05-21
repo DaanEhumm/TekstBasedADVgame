@@ -1,38 +1,36 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.Metrics;
-using System.Linq;
-using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TextBasedADV
 {
     internal class GameManager
     {
         private Player _player;
-        private readonly List<Encounter> encounters = new();
-        private readonly DobbelSteen dobbelSteen = new();
+        private readonly List<Encounter> _encounters = new();
+        private readonly DobbelSteen _dobbelSteen = new();
+        private readonly GameState _gameState = new();
 
-        public void StartGame()
+        internal void StartGame()
         {
             Console.Clear();
             Console.WriteLine("Welkom bij het Avontuur!");
             SelectPlayerClass();
             CreateEncounters();
 
-            foreach (var encounter in encounters)
+            foreach (var encounter in _encounters)
             {
-                Console.WriteLine("\nDruk op spatie om te dobbelen...");
+                Console.WriteLine("\nDruk op SPATIE om te dobbelen...");
                 while (Console.ReadKey(true).Key != ConsoleKey.Spacebar) { }
 
-                int roll = dobbelSteen.Roll();
+                int roll = _dobbelSteen.Roll();
                 Console.WriteLine($"Je rolde een {roll}!");
-                var result = encounter.Resolve(roll, _player);
+
+                var result = encounter.Resolve(roll, _player, _gameState);
 
                 if (result == EncounterResult.Death)
                 {
-                    Console.WriteLine("Je bent overleden! Het spel is voorbij.");
+                    Console.WriteLine("Je bent gestorven. Game over.");
+                    EndingHandler.ShowEnding(_player);
                     return;
                 }
             }
@@ -42,7 +40,7 @@ namespace TextBasedADV
 
         private void SelectPlayerClass()
         {
-            Console.WriteLine("Kies je class:");
+            Console.WriteLine("Kies een class:");
             var classes = Enum.GetValues(typeof(PlayerClass));
             int index = 1;
             foreach (var c in classes)
@@ -51,22 +49,22 @@ namespace TextBasedADV
                 index++;
             }
 
-            int choice = 0;
-            while (choice < 1 || choice > classes.Length)
+            int keuze = 0;
+            while (keuze < 1 || keuze > classes.Length)
             {
                 Console.Write("Jouw keuze: ");
-                int.TryParse(Console.ReadLine(), out choice);
+                int.TryParse(Console.ReadLine(), out keuze);
             }
 
-            _player = new Player((PlayerClass)(choice - 1));
+            _player = new Player((PlayerClass)(keuze - 1));
             Console.WriteLine($"Je koos: {_player.Class}");
         }
 
         private void CreateEncounters()
         {
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < 6; i++)
             {
-                encounters.Add(new Encounter(i + 1));
+                _encounters.Add(new Encounter(i + 1));
             }
         }
     }

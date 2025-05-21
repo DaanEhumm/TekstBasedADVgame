@@ -1,19 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TextBasedADV
 {
     internal class Player
     {
-        public PlayerClass Class { get; private set; }
+        private readonly PlayerClass _class;
+        private readonly Health _health;
+        private readonly List<string> _inventory = new();
 
-        public Player(PlayerClass playerClass)
+        internal PlayerClass Class => _class;
+        internal Health Health => _health;
+
+        internal Player(PlayerClass playerClass)
         {
-            Class = playerClass;
+            _class = playerClass;
+            _health = new Health(100);
         }
+
+        internal void AddItem(string item)
+        {
+            _inventory.Add(item);
+            Console.WriteLine($"Item verkregen: {item}");
+        }
+
+        internal bool HasItem(string item) => _inventory.Contains(item);
     }
 }
-
