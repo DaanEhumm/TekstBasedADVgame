@@ -1,4 +1,6 @@
-﻿namespace TextBasedADV
+﻿using System;
+
+namespace TextBasedADV
 {
     internal class Program
     {

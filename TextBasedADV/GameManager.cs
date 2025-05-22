@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using static TextBasedADV.Encounter;
 
 namespace TextBasedADV
@@ -7,9 +8,9 @@ namespace TextBasedADV
     internal class GameManager
     {
         private Player _player;
-        private List<Encounter> _encounters = new();
         private DobbelSteen _dobbelSteen = new();
         private GameState _gameState = new();
+        private List<Encounter> _encounters = new();
 
         internal void StartGame()
         {
@@ -20,15 +21,14 @@ namespace TextBasedADV
 
             foreach (var encounter in _encounters)
             {
-                Console.WriteLine("\nDruk op SPATIE om te dobbelen...");
+                Console.WriteLine($"\nDruk op SPATIE om te dobbelen voor: {encounter.Name}");
                 while (Console.ReadKey(true).Key != ConsoleKey.Spacebar) { }
 
-                int roll = _dobbelSteen.Roll();
-                Console.WriteLine($"Je rolde een {roll}!");
+                int roll = _dobbelSteen.RollWithAnimation();
 
                 var result = encounter.Resolve(roll, _player, _gameState);
 
-                if (result == EncounterResult.Death)
+                if (result == Encounter.EncounterResult.Death)
                 {
                     Console.WriteLine("Je bent gestorven. Game over.");
                     EndingHandler.ShowEnding(_player, _gameState);
@@ -63,11 +63,25 @@ namespace TextBasedADV
 
         private void CreateEncounters()
         {
-            for (int i = 0; i < 6; i++)
+            _encounters.Add(new BeginEncounter());
+
+            var middleEncounters = new List<Encounter>
             {
-                _encounters.Add(new Encounter(i + 1));
-            }
+                new EncounterPuzzle(),
+                new EncounterRavine(),
+                new EncounterHealer(),
+                new EncounterBandits(),
+                new EncounterMerchant(),
+                new EncounterHiddenCave(),
+                new EncounterOldTemple(),
+                new EncounterWildBeast()
+            };
+
+            var random = new Random();
+            var selected = middleEncounters.OrderBy(x => random.Next()).Take(4).ToList();
+            _encounters.AddRange(selected);
+
+            _encounters.Add(new FinalBossEncounter());
         }
     }
 }
-

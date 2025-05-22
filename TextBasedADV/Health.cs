@@ -5,7 +5,7 @@ namespace TextBasedADV
     internal class Health
     {
         private int _current;
-        private int _max;
+        private readonly int _max;
 
         internal int Current => _current;
         internal bool IsDead => _current <= 0;

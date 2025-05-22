@@ -17,7 +17,7 @@ namespace TextBasedADV
             }
             else
             {
-                Console.WriteLine("Je bent verbrand door de draak");
+                Console.WriteLine("Je hebt het einde bereikt... maar niet overwonnen.");
             }
         }
     }
