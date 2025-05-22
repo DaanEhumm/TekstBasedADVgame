@@ -5,9 +5,9 @@ namespace TextBasedADV
 {
     internal class Player
     {
-        private readonly PlayerClass _class;
-        private readonly Health _health;
-        private readonly List<string> _inventory = new();
+        private  PlayerClass _class;
+        private  Health _health;
+        private  List<string> _inventory = new();
 
         internal PlayerClass Class => _class;
         internal Health Health => _health;

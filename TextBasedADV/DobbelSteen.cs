@@ -4,7 +4,7 @@ namespace TextBasedADV
 {
     internal class DobbelSteen
     {
-        private readonly Random random = new();
+        private Random random = new();
 
         public int Roll()
         {

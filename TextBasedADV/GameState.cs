@@ -1,12 +1,6 @@
-﻿using System;
-
-namespace TextBasedADV
+﻿internal class GameState
 {
-    internal class GameState
-    {
-        internal bool HasTreasureMap { get; set; }
-        internal bool HasFoundTreasure { get; set; }
-        internal bool DragonAwakened { get; set; }
-        internal int EncounterNumber { get; set; } = 1;
-    }
+    internal bool HasSpecialItem { get; set; }
+    internal bool PlayerWon { get; set; }
+    internal int EncounterNumber { get; set; } = 1;
 }

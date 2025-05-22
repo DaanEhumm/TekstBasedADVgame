@@ -1,24 +1,23 @@
 ﻿using System;
-using System;
 
 namespace TextBasedADV
 {
     internal static class EndingHandler
     {
-        internal static void ShowEnding(Player player)
+        internal static void ShowEnding(Player player, GameState gameState)
         {
             Console.WriteLine("\n--- EINDE ---");
             if (player.Health.IsDead)
             {
-                Console.WriteLine("Je bent gestorven in je avontuur.");
+                Console.WriteLine("Je bent gestorven tijdens je avontuur.");
             }
-            else if (player.HasItem("Oude Magische Steen") || player.HasItem("Versterkt Zwaard"))
+            else if (gameState.PlayerWon)
             {
-                Console.WriteLine("Je gebruikte je kracht om de draak te verslaan. Je bent een held!");
+                Console.WriteLine($"Je hebt de draak verslagen met jouw {player.Class}-kracht. Je bent een legende!");
             }
             else
             {
-                Console.WriteLine("Je overleefde, maar de draak liet een spoor van vernietiging achter...");
+                Console.WriteLine("Je bent verbrand door de draak");
             }
         }
     }

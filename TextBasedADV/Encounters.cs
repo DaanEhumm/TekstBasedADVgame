@@ -1,16 +1,7 @@
 ﻿using System;
 
 namespace TextBasedADV
-{
-    internal enum EncounterResult
-    {
-        Continue,
-        Heal,
-        Damage,
-        Item,
-        Death
-    }
-
+{ 
     internal class Encounter
     {
         private int _number;
@@ -19,109 +10,108 @@ namespace TextBasedADV
         {
             _number = number;
         }
+    
+        internal enum EncounterResult
+        {
+            Continue,
+            Heal,
+            Damage,
+            Item,
+            Death
+        }
+    
 
-        internal EncounterResult Resolve(int roll, Player player, GameState gameState)
+    internal EncounterResult Resolve(int roll, Player player, GameState gameState)
         {
             Console.WriteLine($"\n--- Encounter {gameState.EncounterNumber} ---");
 
             switch (gameState.EncounterNumber)
             {
                 case 1:
-                    Console.WriteLine("In de verte zie je een dorp in brand staan. Je besluit terug te keren naar het kasteel voor hulp.");
-                    Console.WriteLine("Je begint je reis. De lucht is dreigend er hangt een grimmig sfeertje in de lucht...");
+                    Console.WriteLine("Je begint je avontuur. In de verte brandt een dorp... je besluit richting het woud te gaan.");
                     break;
 
                 case 2:
-                    Console.WriteLine("Je komt bij een kruispunt in het bos...");
-                    if (roll <= 8)
+                    Console.WriteLine("Een mysterieuze figuur biedt je een raadsel aan...");
+                    if (roll >= 12)
                     {
-                        Console.WriteLine("Je neemt het linkerpad. Je vond een schatkaart!");
-                        gameState.HasTreasureMap = true;
-                        player.AddItem("Schatkaart");
-                    }
-                    else
-                    {
-                        Console.WriteLine("Je neemt het rechterpad... maar struikrovers liggen op de loer!");
-                        player.Health.TakeDamage(15);
-                        if (player.Health.IsDead) return EncounterResult.Death;
-                    }
-                    break;
-
-                case 3:
-                    if (gameState.HasTreasureMap && !gameState.HasFoundTreasure)
-                    {
-                        Console.WriteLine("Je volgt de aanwijzingen op de schatkaart...");
                         string item = player.Class switch
                         {
                             PlayerClass.Wizard => "Oude Magische Steen",
                             PlayerClass.Soldier => "Versterkt Zwaard",
+                            PlayerClass.Knight => "Helm van Licht",
+                            PlayerClass.Troll => "Brok Helse Steen",
+                            PlayerClass.Assassin => "Schaduwmes",
                             _ => "Zeldzaam Artefact"
                         };
-                        Console.WriteLine($"Na uren zoeken vind je een verborgen {item}!");
+                        Console.WriteLine($"Je lost het raadsel op en ontvangt: {item}!");
                         player.AddItem(item);
-                        gameState.HasFoundTreasure = true;
+                        gameState.HasSpecialItem = true;
                     }
                     else
                     {
-                        Console.WriteLine("Je doolt door een dicht bos. Een wolf valt aan!");
-                        player.Health.TakeDamage(20);
+                        Console.WriteLine("Je faalt het raadsel en de figuur verdwijnt.");
+                    }
+                    break;
+
+                case 3:
+                    Console.WriteLine("Je komt een ravijn tegen. Je moet springen om verder te gaan...");
+                    if (roll <= 5)
+                    {
+                        Console.WriteLine("Je valt! Je raakt zwaar gewond.");
+                        player.Health.TakeDamage(30);
                         if (player.Health.IsDead) return EncounterResult.Death;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Je springt behendig naar de overkant.");
                     }
                     break;
 
                 case 4:
-                    Console.WriteLine("Je ziet een mysterieus verlaten huis langs het pad.");
-                    if (roll <= 6)
+                    Console.WriteLine("Een genezer biedt hulp aan.");
+                    if (roll >= 8)
                     {
-                        Console.WriteLine("Je besluit naar binnen te gaan... je vindt een geneesdrank!");
-                        if (player.Health.Current < 100)
-                        {
-                            player.Health.Heal(25);
-                        }
-                        else
-                        {
-                            Console.WriteLine("Je bent al op volle gezondheid. Je bewaart de drank voor later.");
-                            player.AddItem("Geneesdrank");
-                        }
+                        Console.WriteLine("Je wordt geheeld.");
+                        player.Health.Heal(40);
                     }
                     else
                     {
-                        Console.WriteLine("Je durft het huis niet te betreden en loopt verder.");
-                    }
-                    break;
-
-                case 5:
-                    Console.WriteLine("In de verte hoor je luid gebrul. De lucht wordt donker...");
-                    if (roll <= 8)
-                    {
-                        Console.WriteLine("Je zoekt dekking en bereidt je voor. De draak is ontwaakt.");
-                        gameState.DragonAwakened = true;
-                    }
-                    else
-                    {
-                        Console.WriteLine("Je negeert het geluid en loopt door... maar je voelt dat iets niet klopt.");
-                        gameState.DragonAwakened = true;
+                        Console.WriteLine("De genezer is een oplichter en steelt van je!");
                         player.Health.TakeDamage(10);
                         if (player.Health.IsDead) return EncounterResult.Death;
                     }
                     break;
 
-                case 6:
-                    Console.WriteLine("De draak nadert snel! De lucht trilt van zijn gebrul!");
-                    if (gameState.DragonAwakened)
-                    {
-                        if (player.HasItem("Versterkt Zwaard") || player.HasItem("Oude Magische Steen"))
-                        {
-                            Console.WriteLine("Je gebruikt je gevonden kracht om de draak te verslaan in een episch gevecht!");
-                            return EncounterResult.Continue;
-                        }
-                        else
-                        {
-                            Console.WriteLine("Je probeert je te verdedigen, maar je bent niet sterk genoeg...");
-                            return EncounterResult.Death;
-                        }
-                    }
+                case 5:
+                    Console.WriteLine("Je hoort gebrul in de verte. De draak is dichtbij...");
+                    Console.WriteLine("Je bereidt je voor op het eindgevecht.");
                     break;
+
+                case 6:
+                    Console.WriteLine("De draak landt voor je met een oorverdovend gebrul!");
+
+                    string requiredItem = player.Class switch
+                    {
+                        PlayerClass.Wizard => "Oude Magische Steen",
+                        PlayerClass.Soldier => "Versterkt Zwaard",
+                        PlayerClass.Knight => "Helm van Licht",
+                        PlayerClass.Troll => "Brok Helse Steen",
+                        PlayerClass.Assassin => "Schaduwmes",
+                        _ => "Zeldzaam Artefact"
+                    };
+
+                    if (player.HasItem(requiredItem))
+                    {
+                        Console.WriteLine("Met jouw speciale artefact voer je een epische aanval uit en versla je de draak!");
+                        gameState.PlayerWon = true;
+                        return EncounterResult.Continue;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Je hebt niet de kracht om de draak te verslaan...");
+                        return EncounterResult.Death;
+                    }
             }
 
             gameState.EncounterNumber++;

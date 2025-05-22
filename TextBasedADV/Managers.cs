@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using static TextBasedADV.Encounter;
 
 namespace TextBasedADV
 {
     internal class GameManager
     {
         private Player _player;
-        private readonly List<Encounter> _encounters = new();
-        private readonly DobbelSteen _dobbelSteen = new();
-        private readonly GameState _gameState = new();
+        private List<Encounter> _encounters = new();
+        private DobbelSteen _dobbelSteen = new();
+        private GameState _gameState = new();
 
         internal void StartGame()
         {
@@ -30,12 +31,12 @@ namespace TextBasedADV
                 if (result == EncounterResult.Death)
                 {
                     Console.WriteLine("Je bent gestorven. Game over.");
-                    EndingHandler.ShowEnding(_player);
+                    EndingHandler.ShowEnding(_player, _gameState);
                     return;
                 }
             }
 
-            EndingHandler.ShowEnding(_player);
+            EndingHandler.ShowEnding(_player, _gameState);
         }
 
         private void SelectPlayerClass()
