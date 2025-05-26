@@ -5,10 +5,13 @@ namespace TextBasedADV
     public class EncounterWildBeast : Encounter
     {
         public override string Name => "EncounterWildBeast";
+        public override void Describe()
+        {
+            Console.WriteLine("Een wild beest stormt op je af!");
+        }
 
         public override EncounterResult Resolve(int roll, Player player, GameState gameState)
         {
-            Console.WriteLine("Een wild beest stormt op je af!");
             if (roll >= 9)
             {
                 Console.WriteLine("Je verslaat het beest met moeite.");

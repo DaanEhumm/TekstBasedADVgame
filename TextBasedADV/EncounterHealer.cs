@@ -5,10 +5,12 @@ namespace TextBasedADV
     public class EncounterHealer : Encounter
     {
         public override string Name => "EncounterHealer";
-
-        public override EncounterResult Resolve(int roll, Player player, GameState gameState)
+        public override void Describe()
         {
             Console.WriteLine("Een genezer biedt hulp aan.");
+        }
+        public override EncounterResult Resolve(int roll, Player player, GameState gameState)
+        {
             if (roll >= 8)
             {
                 Console.WriteLine("Je wordt geheeld.");

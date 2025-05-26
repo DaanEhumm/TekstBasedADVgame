@@ -5,10 +5,13 @@ namespace TextBasedADV
     public class EncounterBandits : Encounter
     {
         public override string Name => "EncounterBandits";
+        public override void Describe()
+        {
+            Console.WriteLine("Bandieten vallen je aan!");
+        }
 
         public override EncounterResult Resolve(int roll, Player player, GameState gameState)
         {
-            Console.WriteLine("Bandieten vallen je aan!");
             if (roll >= 10)
             {
                 Console.WriteLine("Je verslaat de bandieten en vindt een klein beetje goud.");
@@ -22,3 +25,4 @@ namespace TextBasedADV
             return EncounterResult.Continue;
         }
     }
+}

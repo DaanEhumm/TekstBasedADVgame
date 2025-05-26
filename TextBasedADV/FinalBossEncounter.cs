@@ -6,10 +6,14 @@ namespace TextBasedADV
     {
         public override string Name => "FinalBossEncounter";
 
+        public override void Describe()
+        {
+            Console.WriteLine("Je staat oog in oog met de draak! Zijn schubben glinsteren in het licht en zijn ogen stralen woede uit.");
+            Console.WriteLine("Om de draak te verslaan, heb je een speciaal artefact nodig dat alleen jouw klasse bezit.");
+        }
+
         public override EncounterResult Resolve(int roll, Player player, GameState gameState)
         {
-            Console.WriteLine("De draak landt voor je met een oorverdovend gebrul!");
-
             string requiredItem = player.Class switch
             {
                 PlayerClass.Wizard => "Oude Magische Steen",

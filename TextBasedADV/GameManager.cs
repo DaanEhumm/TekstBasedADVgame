@@ -21,18 +21,31 @@ namespace TextBasedADV
 
             foreach (var encounter in _encounters)
             {
-                Console.WriteLine($"\nDruk op SPATIE om te dobbelen voor: {encounter.Name}");
-                while (Console.ReadKey(true).Key != ConsoleKey.Spacebar) { }
+                Console.WriteLine($"\n--- {encounter.Name} ---");
+                encounter.Describe();
 
-                int roll = _dobbelSteen.RollWithAnimation();
-                var result = encounter.Resolve(roll, _player, _gameState);
-
-                if (result == EncounterResult.Death)
+                if (encounter is BeginEncounter)
                 {
-                    Console.WriteLine("Je bent gestorven. Game over.");
-                    EndingHandler.ShowEnding(_player, _gameState);
-                    return;
+                    encounter.Resolve(0, _player, _gameState);
                 }
+                else
+                {
+                    Console.WriteLine("\nDruk op SPATIE om te dobbelen...");
+                    while (Console.ReadKey(true).Key != ConsoleKey.Spacebar) { }
+
+                    int roll = _dobbelSteen.RollWithAnimation();
+                    var result = encounter.Resolve(roll, _player, _gameState);
+
+                    if (result == EncounterResult.Death)
+                    {
+                        Console.WriteLine("Je bent gestorven. Game over.");
+                        EndingHandler.ShowEnding(_player, _gameState);
+                        return;
+                    }
+                }
+
+                Console.WriteLine("\n--- Volgend encounter start binnenkort... ---");
+                Thread.Sleep(3000);
             }
 
             EndingHandler.ShowEnding(_player, _gameState);
@@ -71,6 +84,7 @@ namespace TextBasedADV
                 new EncounterHealer(),
                 new EncounterBandits(),
                 new EncounterMerchant(),
+                new EncounterSplitPath(),
                 new EncounterHiddenCave(),
                 new EncounterOldTemple(),
                 new EncounterWildBeast()

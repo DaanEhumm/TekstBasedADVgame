@@ -6,9 +6,12 @@ namespace TextBasedADV
     {
         public override string Name => "EncounterMerchant";
 
+        protected override string description => "Een handelaar biedt je een mysterieus item aan."; // gaat hierom 
+
+
         public override EncounterResult Resolve(int roll, Player player, GameState gameState)
         {
-            Console.WriteLine("Een handelaar biedt je een mysterieus item aan.");
+        
             if (roll >= 8)
             {
                 Console.WriteLine("Je koopt een nuttig item.");
@@ -23,3 +26,6 @@ namespace TextBasedADV
         }
     }
 }
+
+
+////// dit is het script dat nagemaakt moet worden bij alle Encounters andere scripten 
