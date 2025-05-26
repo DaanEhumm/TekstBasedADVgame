@@ -1,9 +1,9 @@
 ﻿namespace TextBasedADV
 {
-    internal class GameState
+    public class GameState
     {
-        internal bool HasSpecialItem { get; set; }
-        internal bool PlayerWon { get; set; }
-        internal int EncounterNumber { get; set; } = 1;
+        public bool HasSpecialItem { get; set; }
+        public bool PlayerWon { get; set; }
+        public int EncounterNumber { get; set; } = 1;
     }
 }

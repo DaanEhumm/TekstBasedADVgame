@@ -2,11 +2,11 @@
 
 namespace TextBasedADV
 {
-    internal class Program
+    public class Program
     {
         private static void Main(string[] args)
         {
-            GameManager game = new GameManager();
+            var game = new GameManager();
             game.StartGame();
         }
     }

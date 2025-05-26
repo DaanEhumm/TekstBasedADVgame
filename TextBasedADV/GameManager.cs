@@ -5,14 +5,14 @@ using static TextBasedADV.Encounter;
 
 namespace TextBasedADV
 {
-    internal class GameManager
+    public class GameManager
     {
         private Player _player;
         private DobbelSteen _dobbelSteen = new();
         private GameState _gameState = new();
         private List<Encounter> _encounters = new();
 
-        internal void StartGame()
+        public void StartGame()
         {
             Console.Clear();
             Console.WriteLine("Welkom bij het Avontuur!");
@@ -25,10 +25,9 @@ namespace TextBasedADV
                 while (Console.ReadKey(true).Key != ConsoleKey.Spacebar) { }
 
                 int roll = _dobbelSteen.RollWithAnimation();
-
                 var result = encounter.Resolve(roll, _player, _gameState);
 
-                if (result == Encounter.EncounterResult.Death)
+                if (result == EncounterResult.Death)
                 {
                     Console.WriteLine("Je bent gestorven. Game over.");
                     EndingHandler.ShowEnding(_player, _gameState);
@@ -80,7 +79,6 @@ namespace TextBasedADV
             var random = new Random();
             var selected = middleEncounters.OrderBy(x => random.Next()).Take(4).ToList();
             _encounters.AddRange(selected);
-
             _encounters.Add(new FinalBossEncounter());
         }
     }

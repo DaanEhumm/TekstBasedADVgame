@@ -1,6 +1,6 @@
 ﻿namespace TextBasedADV
 {
-    internal enum PlayerClass
+    public enum PlayerClass
     {
         Wizard,
         Knight,

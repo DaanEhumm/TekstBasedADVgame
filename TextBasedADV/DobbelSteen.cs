@@ -3,9 +3,9 @@ using System.Threading;
 
 namespace TextBasedADV
 {
-    internal class DobbelSteen
+    public class DobbelSteen
     {
-        private readonly Random _random = new();
+        private Random _random = new();
 
         public int RollWithAnimation()
         {
@@ -13,11 +13,12 @@ namespace TextBasedADV
             int roll = 0;
             for (int i = 0; i < 15; i++)
             {
-                roll = _random.Next(1, 17); // 1 t/m 16
+                roll = _random.Next(1, 17);
                 Console.Write($"\rDobbelsteen rolt: {roll}   ");
                 Thread.Sleep(200);
             }
             return roll;
         }
     }
+
 }

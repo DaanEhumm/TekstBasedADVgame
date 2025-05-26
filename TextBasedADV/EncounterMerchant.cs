@@ -2,7 +2,7 @@
 
 namespace TextBasedADV
 {
-    internal class EncounterMerchant : Encounter
+    public class EncounterMerchant : Encounter
     {
         public override string Name => "EncounterMerchant";
 

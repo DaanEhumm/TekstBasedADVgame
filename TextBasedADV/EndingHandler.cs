@@ -2,9 +2,9 @@
 
 namespace TextBasedADV
 {
-    internal static class EndingHandler
+    public static class EndingHandler
     {
-        internal static void ShowEnding(Player player, GameState gameState)
+        public static void ShowEnding(Player player, GameState gameState)
         {
             Console.WriteLine("\n--- EINDE ---");
             if (player.Health.IsDead)
@@ -21,5 +21,6 @@ namespace TextBasedADV
             }
         }
     }
+
 }
 

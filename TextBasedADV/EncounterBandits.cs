@@ -2,7 +2,7 @@
 
 namespace TextBasedADV
 {
-    internal class EncounterBandits : Encounter
+    public class EncounterBandits : Encounter
     {
         public override string Name => "EncounterBandits";
 
@@ -22,4 +22,3 @@ namespace TextBasedADV
             return EncounterResult.Continue;
         }
     }
-}

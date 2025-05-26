@@ -2,7 +2,7 @@
 
 namespace TextBasedADV
 {
-    internal class EncounterHiddenCave : Encounter
+    public class EncounterHiddenCave : Encounter
     {
         public override string Name => "EncounterHiddenCave";
 
