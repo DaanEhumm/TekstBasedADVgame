@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using static TextBasedADV.Encounter;
+using System.Threading;
 
 namespace TextBasedADV
 {
     public class GameManager
     {
         private Player _player;
-        private DobbelSteen _dobbelSteen = new();
         private GameState _gameState = new();
         private List<Encounter> _encounters = new();
 
@@ -16,11 +15,16 @@ namespace TextBasedADV
         {
             Console.Clear();
             Console.WriteLine("Welkom bij het Avontuur!");
+            Console.WriteLine("Er gaan geruchten over een draak die dorpen verbrandt...");
+            Console.WriteLine("Jij wordt gestuurd om dit gevaar te onderzoeken en – als je durft – te stoppen.");
+            Thread.Sleep(3500);
+
             SelectPlayerClass();
             CreateEncounters();
 
             foreach (var encounter in _encounters)
             {
+                Console.Clear();
                 Console.WriteLine($"\n--- {encounter.Name} ---");
                 encounter.Describe();
 
@@ -28,17 +32,28 @@ namespace TextBasedADV
                 {
                     encounter.Resolve(0, _player, _gameState);
                 }
+                else if (encounter is FinalBossEncounter finalBoss)
+                {
+                    var result = finalBoss.Resolve(0, _player, _gameState);
+                    if (result == EncounterResult.Death)
+                    {
+                        Console.WriteLine("\nJe bent gestorven. Game over.");
+                        EndingHandler.ShowEnding(_player, _gameState);
+                        return;
+                    }
+                    else if (result == EncounterResult.Continue)
+                    {
+                        Console.WriteLine("\nJe hebt de draak verslagen! Gefeliciteerd!");
+                        _gameState.PlayerWon = true;
+                    }
+                }
                 else
                 {
-                    Console.WriteLine("\nDruk op SPATIE om te dobbelen...");
-                    while (Console.ReadKey(true).Key != ConsoleKey.Spacebar) { }
-
-                    int roll = _dobbelSteen.RollWithAnimation();
-                    var result = encounter.Resolve(roll, _player, _gameState);
+                    var result = encounter.Resolve(0, _player, _gameState);
 
                     if (result == EncounterResult.Death)
                     {
-                        Console.WriteLine("Je bent gestorven. Game over.");
+                        Console.WriteLine("\nJe bent gestorven. Game over.");
                         EndingHandler.ShowEnding(_player, _gameState);
                         return;
                     }
@@ -53,7 +68,8 @@ namespace TextBasedADV
 
         private void SelectPlayerClass()
         {
-            Console.WriteLine("Kies een class:");
+            Console.Clear();
+            Console.WriteLine("Kies een heldenklasse die je op deze missie stuurt:");
             var classes = Enum.GetValues(typeof(PlayerClass));
             int index = 1;
             foreach (var c in classes)
@@ -71,6 +87,7 @@ namespace TextBasedADV
 
             _player = new Player((PlayerClass)(keuze - 1));
             Console.WriteLine($"Je koos: {_player.Class}");
+            Thread.Sleep(1500);
         }
 
         private void CreateEncounters()
@@ -85,14 +102,16 @@ namespace TextBasedADV
                 new EncounterBandits(),
                 new EncounterMerchant(),
                 new EncounterSplitPath(),
-                new EncounterHiddenCave(),
                 new EncounterOldTemple(),
-                new EncounterWildBeast()
+                new EncounterWildBeast(),
+                new EncounterCursedLake(),
+                new EncounterTrial(),
             };
 
             var random = new Random();
-            var selected = middleEncounters.OrderBy(x => random.Next()).Take(4).ToList();
+            var selected = middleEncounters.OrderBy(x => random.Next()).Take(7).ToList();
             _encounters.AddRange(selected);
+
             _encounters.Add(new FinalBossEncounter());
         }
     }

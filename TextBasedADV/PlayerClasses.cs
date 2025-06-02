@@ -4,8 +4,6 @@
     {
         Wizard,
         Knight,
-        Soldier,
-        Troll,
-        Assassin
+        Soldier
     }
 }

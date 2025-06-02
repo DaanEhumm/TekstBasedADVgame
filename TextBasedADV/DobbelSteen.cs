@@ -15,10 +15,10 @@ namespace TextBasedADV
             {
                 roll = _random.Next(1, 17);
                 Console.Write($"\rDobbelsteen rolt: {roll}   ");
-                Thread.Sleep(200);
+                Thread.Sleep(180);
             }
+            Console.WriteLine();
             return roll;
         }
     }
-
 }

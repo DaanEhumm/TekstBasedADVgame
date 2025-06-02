@@ -2,17 +2,17 @@
 
 namespace TextBasedADV
 {
-    public class EncounterBandits : Encounter
+    public class EncounterCursedLake : Encounter
     {
-        public override string Name => "De Bandieten";
+        public override string Name => "Het Vervloekte Meer";
         protected override string description =>
-            "Een groep bandieten springt uit de bosjes en eist je spullen op.";
+            "Je staat voor een donker meer waaruit een object schijnt te glinsteren.";
 
         public override EncounterResult Resolve(int roll, Player player, GameState gameState)
         {
             Console.WriteLine("Wat doe je?");
-            Console.WriteLine("1. Vecht terug!");
-            Console.WriteLine("2. Probeer ze af te kopen of te onderhandelen.");
+            Console.WriteLine("1. Probeer het object uit het water te halen.");
+            Console.WriteLine("2. Loop om het meer heen.");
 
             int choice = 0;
             while (choice != 1 && choice != 2)
@@ -29,27 +29,20 @@ namespace TextBasedADV
             {
                 if (roll >= 10)
                 {
-                    Console.WriteLine("Je verslaat de bandieten moeiteloos en vindt een klein beetje goud.");
+                    Console.WriteLine("Je grijpt het Magisch Wateramulet!");
+                    player.AddItem("Magisch Wateramulet");
+                    return EncounterResult.Item;
                 }
                 else
                 {
-                    Console.WriteLine("Je raakt gewond tijdens het gevecht.");
+                    Console.WriteLine("Het water grijpt je! Je raakt verwond.");
                     player.Health.TakeDamage(20);
                     if (player.Health.IsDead) return EncounterResult.Death;
                 }
             }
             else
             {
-                if (roll >= 9)
-                {
-                    Console.WriteLine("Ze accepteren je aanbod en laten je gaan.");
-                }
-                else
-                {
-                    Console.WriteLine("Ze bespotten je zwakte en vallen alsnog aan.");
-                    player.Health.TakeDamage(25);
-                    if (player.Health.IsDead) return EncounterResult.Death;
-                }
+                Console.WriteLine("Je vermijdt het risico en kiest de veilige route.");
             }
 
             return EncounterResult.Continue;

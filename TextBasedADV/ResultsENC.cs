@@ -3,9 +3,8 @@
     public enum EncounterResult
     {
         Continue,
+        Death,
         Heal,
-        Damage,
-        Item,
-        Death
+        Item
     }
 }
