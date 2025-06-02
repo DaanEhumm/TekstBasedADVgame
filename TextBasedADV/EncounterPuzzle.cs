@@ -38,7 +38,6 @@ namespace TextBasedADV
                     };
                     Console.WriteLine($"Je lost het raadsel op en ontvangt: {item}!");
                     player.AddItem(item);
-                    gameState.HasSpecialItem = true;
                     return EncounterResult.Item;
                 }
                 else

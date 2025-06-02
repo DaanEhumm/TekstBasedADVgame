@@ -11,7 +11,7 @@ namespace TextBasedADV
         public override EncounterResult Resolve(int roll, Player player, GameState gameState)
         {
             Console.WriteLine("Wat kies je?");
-            Console.WriteLine("1. Ga het bos in.");
+            Console.WriteLine("1. Ga het bos in. er kunnen wilde beesten op de loer liggen");
             Console.WriteLine("2. Kies het bergpad naar de oude tempel.");
 
             int choice = 0;

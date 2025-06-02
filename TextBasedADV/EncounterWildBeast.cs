@@ -10,7 +10,7 @@ namespace TextBasedADV
 
         public override EncounterResult Resolve(int roll, Player player, GameState gameState)
         {
-            Console.WriteLine("Wat doe je?");
+            Console.WriteLine("Het beest valt aan Wat doe je?");
             Console.WriteLine("1. Vecht terug.");
             Console.WriteLine("2. Probeer te vluchten.");
 

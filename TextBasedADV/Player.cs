@@ -23,6 +23,18 @@ namespace TextBasedADV
             _inventory.Add(item);
             Console.WriteLine($"Item verkregen: {item}");
         }
+        public void RemoveItem(string item)
+        {
+            if (_inventory.Contains(item))
+            {
+                _inventory.Remove(item);
+                Console.WriteLine($"Item verwijderd: {item}");
+            }
+            else
+            {
+                Console.WriteLine($"Item niet gevonden: {item}");
+            }
+        }
 
         public bool HasItem(string item) => _inventory.Contains(item);
     }

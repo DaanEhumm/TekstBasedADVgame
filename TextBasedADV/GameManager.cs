@@ -17,7 +17,7 @@ namespace TextBasedADV
             Console.WriteLine("Welkom bij het Avontuur!");
             Console.WriteLine("Er gaan geruchten over een draak die dorpen verbrandt...");
             Console.WriteLine("Jij wordt gestuurd om dit gevaar te onderzoeken en – als je durft – te stoppen.");
-            Thread.Sleep(3500);
+            Thread.Sleep(4500);
 
             SelectPlayerClass();
             CreateEncounters();
@@ -28,42 +28,26 @@ namespace TextBasedADV
                 Console.WriteLine($"\n--- {encounter.Name} ---");
                 encounter.Describe();
 
-                if (encounter is BeginEncounter)
-                {
-                    encounter.Resolve(0, _player, _gameState);
-                }
-                else if (encounter is FinalBossEncounter finalBoss)
-                {
-                    var result = finalBoss.Resolve(0, _player, _gameState);
-                    if (result == EncounterResult.Death)
-                    {
-                        Console.WriteLine("\nJe bent gestorven. Game over.");
-                        EndingHandler.ShowEnding(_player, _gameState);
-                        return;
-                    }
-                    else if (result == EncounterResult.Continue)
-                    {
-                        Console.WriteLine("\nJe hebt de draak verslagen! Gefeliciteerd!");
-                        _gameState.PlayerWon = true;
-                    }
-                }
-                else
-                {
-                    var result = encounter.Resolve(0, _player, _gameState);
+                EncounterResult result = encounter.Resolve(0, _player, _gameState);
 
-                    if (result == EncounterResult.Death)
-                    {
-                        Console.WriteLine("\nJe bent gestorven. Game over.");
-                        EndingHandler.ShowEnding(_player, _gameState);
-                        return;
-                    }
+                if (result == EncounterResult.Death)
+                {
+                    Console.WriteLine("\nJe bent gestorven. Game over.");
+                    return;
+                }
+
+                if (encounter is FinalBossEncounter)
+                {
+                    return;
                 }
 
                 Console.WriteLine("\n--- Volgend encounter start binnenkort... ---");
                 Thread.Sleep(3000);
             }
 
-            EndingHandler.ShowEnding(_player, _gameState);
+            Console.WriteLine("\nJe hebt alle encounters doorstaan, maar de draak is ontsnapt...");
+            Console.WriteLine("Het land leeft in angst. Misschien krijg je een tweede kans.");
+            Console.WriteLine("\nBedankt voor het spelen!");
         }
 
         private void SelectPlayerClass()
