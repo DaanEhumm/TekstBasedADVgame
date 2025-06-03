@@ -17,7 +17,7 @@ namespace TextBasedADV
             Console.WriteLine("Welkom bij het Avontuur!");
             Console.WriteLine("Er gaan geruchten over een draak die dorpen verbrandt...");
             Console.WriteLine("Jij wordt gestuurd om dit gevaar te onderzoeken en – als je durft – te stoppen.");
-            Thread.Sleep(4500);
+            Thread.Sleep(5500);
 
             SelectPlayerClass();
             CreateEncounters();
